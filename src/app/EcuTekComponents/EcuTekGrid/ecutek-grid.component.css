@@ -1,0 +1,33 @@
+table{
+  border:1px;
+  border-color: black;
+  border-style: solid;
+  background-color: lightyellow;
+}
+
+th, td{
+  border:1px;
+  border-color: black;
+  border-style: solid;
+  padding: 2px;
+  width:600px;
+}
+
+thead > tr:nth-child(1) > th{
+  background-color: lightslategrey;
+  color: azure;
+}
+
+thead > tr:nth-child(2) > th{
+  background-color: transparent;
+  color: azure;
+}
+
+.filterInput{
+  width: 65%;
+}
+
+.filterButton, .clearFilterButton{
+  width: 15%;
+  height: 20px;
+}

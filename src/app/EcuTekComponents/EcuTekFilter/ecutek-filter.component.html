@@ -1,0 +1,16 @@
+<div style="width:50px;min-width:200px">
+  <input [type]="(DataType=='boolean')?'checkbox':DataType" style="width:50%"/>
+  <button class="filterButton" type="button" (click)="ApllyFilter()">
+    <img src="https://img.icons8.com/ios/12/000000/filter.png" >
+  </button>
+  <button class="clearFilterButton" type="button">
+    <img src="https://img.icons8.com/ios/12/000000/clear-filters.png">
+  </button>
+</div>
+
+<div [attr.class]="IsDropDownShow">
+  <ul>
+    <li>Equal To</li>
+    <li>Not Equal To</li>
+  </ul>
+</div>

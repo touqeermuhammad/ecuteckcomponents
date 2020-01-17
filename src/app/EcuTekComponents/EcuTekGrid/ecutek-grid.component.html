@@ -1,0 +1,82 @@
+<script src="https://kit.fontawesome.com/yourcode.js"></script>
+
+<h2>Customer List</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th *ngFor="let x of Columns">
+        {{(x.ColumnText == null || x.ColumnText == "") ? x.ColumnName : x.ColumnTex}} 
+      </th>
+    </tr>
+    <tr>
+      <th *ngFor="let x of Columns" [attr.columnid]="x.ColumnIndex" [attr.columntype]="x.DataType" >
+        <span *ngIf="x.DataType=='string'">
+          <input class="filterInput" type="text" [(ngModel)]="x.FilterValue"/>
+        </span>
+        <span *ngIf="x.DataType=='number'">
+          <input class="filterInput" type="number" [(ngModel)]="x.FilterValue"/>
+        </span>
+        <span *ngIf="x.DataType=='boolean'">
+          <input type="checkbox" [(ngModel)]="x.FilterValue"/>
+        </span>
+        <span *ngIf="x.DataType=='datetime'">
+          <input class="filterInput" type="date" [(ngModel)]="x.FilterValue"/>
+        </span>
+        <button class="filterButton" type="button" [attr.columnid]="x.ColumnIndex" [attr.columntype]="x.DataType" (click)="Filter($event)">
+          <img src="https://img.icons8.com/android/24/000000/filter.png"> 
+        </button>
+        
+        <button class="clearFilterButton" type="button" [attr.columnid]="x.ColumnIndex" [attr.columntype]="x.DataType" (click)="ClearColumnFilter($event)">
+          Remove Filter
+        </button>
+
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let x of Rows" [attr.rowid]="x.RowIndex" [attr.iseven]="x.IsEven">
+      <td *ngFor="let y of x.Cells" [attr.cellid]="y.CellIndex">
+        <span *ngIf="x.IsEditMode && Columns[y.CellIndex].DataType=='string'">
+          <input type="text" [(ngModel)]="y.Value"/>
+        </span>
+        <span *ngIf="x.IsEditMode && Columns[y.CellIndex].DataType=='number'">
+          <input type="number" [(ngModel)]="y.Value"/>
+        </span>
+        <span *ngIf="x.IsEditMode && Columns[y.CellIndex].DataType=='boolean'">
+          <input type="checkbox" [(ngModel)]="y.Value"/>
+        </span>
+        <span *ngIf="x.IsEditMode && Columns[y.CellIndex].DataType=='datetime'">
+          <input type="date" [(ngModel)]="y.Value"/>
+        </span>
+
+        <span *ngIf="!x.IsEditMode">
+          {{DisplayValue(y.Value, y.CellIndex)}}
+        </span>
+      </td>
+
+      <td *ngIf="IsEditAllowed && !x.IsEditMode">
+        <button type="button" [attr.rowid]="x.RowIndex" (click)=OnEditClick($event)>Edit</button>
+      </td>
+      <td *ngIf="IsDeleteAllowed && !x.IsEditMode">
+        <button type="button" [attr.rowid]="x.RowIndex" (click)=OnDeleteClick($event)>Delete</button>
+      </td>      
+
+      <td *ngIf="x.IsEditMode">
+        <button type="button" [attr.rowid]="x.RowIndex" (click)=OnSaveClick($event)>Save</button>
+      </td>
+      <td *ngIf="x.IsEditMode">
+        <button type="button" [attr.rowid]="x.RowIndex" (click)=OnCancelClick($event)>Cancel</button>
+      </td>      
+    </tr>
+  </tbody>
+</table>
+
+<div>
+  <input type="number" [(ngModel)]="ColumnIndex"/>
+  <button type="button" (click)=SortByAscendingOrderClick()>Ascen</button>
+  <button type="button" (click)=SortByDescendingOrderClick()>Descen</button>
+  <button type="button" (click)=ClearAllFilter()>Clear Filter</button>
+  <button type="button" (click)=RefreshClick()>Refresh</button>
+</div>

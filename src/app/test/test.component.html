@@ -1,0 +1,31 @@
+<h2>Built-in <i>attribute</i> directives</h2>
+<hr/>
+
+<h4>NgClass</h4>
+<button (click)="condition = !condition">Toggle Condition</button>
+<p>Condition is : {{ condition }}</p>
+<div [class.special]="condition">The class binding is special</div>
+
+<!-- <label [innerHtml]="inputVal | uppercase "></label>
+<br/>
+<br/>
+<input [(ngModel)]="inputVal"/>
+<br/>
+<br/>
+<button [disabled]="inputVal != 1">Type '1' to enable this button</button>
+<br/>
+<br/>
+<div>Type red, blue or green.</div>
+<ng-container *ngIf="inputVal == 'red' || inputVal == 'green' || inputVal == 'blue'">
+  <p [class]="inputVal">You have typed {{ inputVal }}</p>
+</ng-container>
+
+<br/>
+
+<div>Type "image" to see an image</div>
+<ng-container *ngIf="inputVal == 'image'">
+  <img [src]="'https://splashbase.s3.amazonaws.com/unsplash/regular/tumblr_mnh0n9pHJW1st5lhmo1_1280.jpg'" width="200"/>
+</ng-container>
+
+<p><span>"{{evilTitle}}" is the <i>interpolated</i> evil title.</span></p>
+<p>"<span [innerHTML]="evilTitle"></span>" is the <i>property bound</i> evil title.</p> -->
