@@ -11,24 +11,29 @@ export class EcuTekMenuComponent{
 
   constructor(){
     let menu:Menu = new Menu("001", -1, null, null);
+    menu.AddMenuItem(new MenuItem("001", "BMW", 1, true));
+    menu.AddMenuItem(new MenuItem("002", "Nissan", 2, true));
+    menu.AddMenuItem(new MenuItem("003", "Toyota", 3, true));
+    this.Menus = [];
+    this.Menus.push(menu);
   }
 
 }
 
 class Menu{
   MenuId:string;
-  Items:MenuItme[];
+  Items:MenuItem[];
   Submenus:Menu[];
   RootLevel:number;
 
-  constructor(menuId:string, rootLevel:number, items:MenuItme[], submenus:Menus[]){
+  constructor(menuId:string, rootLevel:number, items:MenuItem[], submenus:Menu[]){
     this.MenuId = menuId;
     this.RootLevel = rootLevel;
     this.Items = (items == null) ? [] : items;
     this.Submenus = (submenus == null) ? [] : submenus;
   }
 
-  AddMenuItem(menuItem:MenuItme){
+  AddMenuItem(menuItem:MenuItem){
     this.Items.push(menuItem);
   }
 
@@ -65,7 +70,7 @@ class Menu{
   }
   
 }
-class MenuItme
+class MenuItem
 {
   ItemId:string;
   ItemText:string;
