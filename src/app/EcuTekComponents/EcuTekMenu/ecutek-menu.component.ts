@@ -8,14 +8,28 @@ import { Component} from '@angular/core';
 
 export class EcuTekMenuComponent{
   Menus:Menu[];
+  SelectedMenuSubmenus:Menu[];
 
   constructor(){
     let menu:Menu = new Menu("001", -1, null, null);
     menu.AddMenuItem(new MenuItem("001", "BMW", 1, true));
-    menu.AddMenuItem(new MenuItem("002", "Nissan", 2, true));
+    menu.AddMenuItem(new MenuItem("002", "Nissan", 2, false));
     menu.AddMenuItem(new MenuItem("003", "Toyota", 3, true));
+
+  let submenu:Menu = new Menu("001", 0, null, null);
+    submenu.AddMenuItem(new MenuItem("001", "3 Series", 1, true));
+    submenu.AddMenuItem(new MenuItem("002", "5 Series", 2, false));
+    submenu.AddMenuItem(new MenuItem("003", "7 Series", 3, true));
+
+    menu.AddSubmenu(submenu);
     this.Menus = [];
     this.Menus.push(menu);
+
+    this.SelectedMenuSubmenus=[];
+  }
+
+  ItemMouseOver($event:MouseEvent){
+
   }
 
 }
