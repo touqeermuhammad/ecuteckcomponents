@@ -1,23 +1,58 @@
-<ul *ngFor="let menu of Menus">
-  <li *ngFor="let item of menu.Items" 
-    [class.IsDisabled]="!item.IsActive"
-    [attr.itemid]="item.ItemId"
-    [attr.isactive]="item.IsActive"
-    (mouseover)="ItemMouseOver($event)"
-    >
-    <span class="spanLeft"></span>
-    <span class="spanRight">{{item.ItemText}}</span>    
- 
-    <div class="submenuContents">
-      <ul *ngFor="let submenu of SelectedMenuSubmenus">
-        <li *ngFor="let submenuItem of submenu.Items" 
-          [class.IsDisabled]="!submenuItem.IsActive"
-          [attr.isactive]="submenuItem.IsActive">
-          <span class="spanLeft"></span>
-          <span class="spanRight">{{submenuItem.ItemText}}</span>    
-        </li>
-      </ul>
-    </div>
-
+<!-- <ul *ngFor="let menu of Menus"> -->
+<ul>
+  <li *ngFor="let item of Menu.Items" 
+      [class.IsDisabled]="!item.IsActive"
+      [attr.itemid]="item.ItemId"
+      [attr.itemindex]="item.ItemIndex"
+      [attr.isactive]="item.IsActive"
+      [attr.level]="Menu.Level"
+      (mouseover)="ItemMouseOver($event)">
+    <span class="spanLeft"     
+      [class.IsDisabled]="!item.IsActive"
+      [attr.itemid]="item.ItemId"
+      [attr.itemindex]="item.ItemIndex"
+      [attr.isactive]="item.IsActive"
+      [attr.level]="Menu.Level"
+      (mouseover)="ItemMouseOver($event)"></span>
+    <span class="spanRight"     
+      [class.IsDisabled]="!item.IsActive"
+      [attr.itemid]="item.ItemId"
+      [attr.itemindex]="item.ItemIndex"
+      [attr.isactive]="item.IsActive"
+      [attr.level]="Menu.Level"
+      (mouseover)="ItemMouseOver($event)">{{item.ItemText}}</span>
   </li>
 </ul>
+
+<div class="submenuContents" *ngIf="SelectedSubmenus != null">
+  <!-- <ul *ngFor="let submenu of SelectedMenuSubmenus"> -->
+  <ul>
+    <li *ngFor="let submenuItem of SelectedSubmenus.Items" 
+      [class.IsDisabled]="!submenuItem.IsActive"
+      [attr.itemid]="submenuItem.ItemId"
+      [attr.itemindex]="submenuItem.ItemIndex"
+      [attr.isactive]="submenuItem.IsActive"
+      [attr.level]="SelectedSubmenus.Level"
+      (mouseover)="ItemMouseOver($event)">
+
+    <span class="spanLeft"     
+      [class.IsDisabled]="!submenuItem.IsActive"
+      [attr.itemid]="submenuItem.ItemId"
+      [attr.itemindex]="submenuItem.ItemIndex"
+      [attr.isactive]="submenuItem.IsActive"
+      [attr.level]="SelectedSubmenus.Level"
+      (mouseover)="ItemMouseOver($event)"></span>
+    <span class="spanRight"     
+      [class.IsDisabled]="!submenuItem.IsActive"
+      [attr.itemid]="submenuItem.ItemId"
+      [attr.itemindex]="submenuItem.ItemIndex"
+      [attr.isactive]="submenuItem.IsActive"
+      [attr.level]="SelectedSubmenus.Level"
+      (mouseover)="ItemMouseOver($event)">{{submenuItem.ItemText}}</span>
+    </li>
+  </ul>
+</div>
+
+<div style="margin-top:20px">
+  <ecutek-dropdownlist [DisplayValueFieldName]="'ItemText'" [DataSource]="Menu.Items" OnSelectedItemChange="OnSelectedItemChange($event)" ></ecutek-dropdownlist>  
+</div>

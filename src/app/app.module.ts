@@ -8,9 +8,11 @@ import { EcuTekGridComponent } from './EcuTekComponents/EcuTekGrid/ecutek-grid.c
 import { EcuTekFilterComponent } from './EcuTekComponents/EcuTekFilter/ecutek-filter.component';
 import { EcuTekMenuComponent } from './EcuTekComponents/EcuTekMenu/ecutek-menu.component';
 
+import { EcuTekDropDownListComponent } from './EcuTekComponents/EcuTekDropDownList/ecutek-dropdownlist.component';
+
 @NgModule({
   imports:      [ BrowserModule, FormsModule ],
-  declarations: [ AppComponent, TestComponent, EcuTekGridComponent, EcuTekFilterComponent, EcuTekMenuComponent ],
+  declarations: [ AppComponent, TestComponent, EcuTekGridComponent, EcuTekFilterComponent, EcuTekMenuComponent, EcuTekDropDownListComponent ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }
