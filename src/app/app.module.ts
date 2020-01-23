@@ -12,12 +12,26 @@ import { EcuTekDropDownListComponent } from './EcuTekComponents/EcuTekDropDownLi
 import {ExportComponent} from './ExportComponent/export.component'
 
 import {CrisisListComponent} from './RountingComponents/CrisisListComponent/crisis-list.component';
-import {HeroListComponet} from './RountingComponents/HeroListComponet/hero-list.component';
+import {HeroListComponent} from './RountingComponents/HeroListComponent/hero-list.component';
 
+import { RouterModule, Routes } from '@angular/router';
+import { NotFoundComponent } from './RountingComponents/NotFoundComponent/not-found.component';
+
+const appRoutes: Routes = [
+  { path: 'crisis-center', component: CrisisListComponent },
+  { path: 'heroes-list', component: HeroListComponent },
+  { path: '**', component: HeroListComponent }
+];
 
 @NgModule({
-  imports:      [ BrowserModule, FormsModule ],
-  declarations: [ AppComponent, TestComponent, EcuTekGridComponent, EcuTekFilterComponent, EcuTekMenuComponent, EcuTekDropDownListComponent, ExportComponent, CrisisListComponent, HeroListComponet ],
+  imports:      [ BrowserModule, 
+                  FormsModule,
+                   RouterModule.forRoot(
+                      appRoutes,
+                      { enableTracing: true } // <-- debugging purposes only
+                    ) 
+                ],
+  declarations: [ AppComponent, TestComponent, EcuTekGridComponent, EcuTekFilterComponent, EcuTekMenuComponent, EcuTekDropDownListComponent, ExportComponent, CrisisListComponent, HeroListComponent, NotFoundComponent ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

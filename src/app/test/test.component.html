@@ -6,6 +6,41 @@
 <p>Condition is : {{ condition }}</p>
 <div [class.special]="condition">The class binding is special</div>
 
+<hr/>
+
+<h2>Routing Example</h2>
+<hr/>
+<!-- 
+<div>
+  <table>
+    <thead>
+      <tr>
+        <th>
+          <a href="#"> Hero List </a>
+        </th>
+        <th>
+          <a href="#"> Crisis List </a>
+        </th>        
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td colspan="2">
+
+        </td>
+      </tr>      
+    </tbody>
+
+  </table>
+</div> -->
+
+<nav>
+  <a routerLink="/crisis-center" routerLinkActive="active">Crisis Center</a>
+  <a routerLink="/heroes-list" routerLinkActive="active">Heroes</a>
+  <a routerLink="/hello" routerLinkActive="active">Heroes</a>
+</nav>
+<router-outlet></router-outlet>
 <!-- <label [innerHtml]="inputVal | uppercase "></label>
 <br/>
 <br/>
