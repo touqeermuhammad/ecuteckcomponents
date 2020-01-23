@@ -10,9 +10,11 @@ import { EcuTekMenuComponent } from './EcuTekComponents/EcuTekMenu/ecutek-menu.c
 
 import { EcuTekDropDownListComponent } from './EcuTekComponents/EcuTekDropDownList/ecutek-dropdownlist.component';
 
+import {ExportComponent} from './ExportComponent/export.component'
+
 @NgModule({
   imports:      [ BrowserModule, FormsModule ],
-  declarations: [ AppComponent, TestComponent, EcuTekGridComponent, EcuTekFilterComponent, EcuTekMenuComponent, EcuTekDropDownListComponent ],
+  declarations: [ AppComponent, TestComponent, EcuTekGridComponent, EcuTekFilterComponent, EcuTekMenuComponent, EcuTekDropDownListComponent, ExportComponent ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

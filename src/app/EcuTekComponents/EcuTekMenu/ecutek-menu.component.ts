@@ -1,5 +1,5 @@
 import { Component} from '@angular/core';
-import { DropDownListEventArgs } from ''
+import { DropDownListEventArgs } from '';
 
 @Component({
   selector: 'ecutek-menu',

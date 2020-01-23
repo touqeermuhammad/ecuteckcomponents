@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row">
+    <div class="col-2"> 
+      Export Type:
+    </div>
+    <div class="col-2">
+      <ecutek-dropdownlist [Name]="'ddlExportType'" [DisplayValueFieldName]="'TypeName'" [DataSource]="ExportTypes" (OnSelectedItemChange)="OnSelectedItemChange($event)" ></ecutek-dropdownlist>      
+    </div>    
+  </div>
+
+  <div class="row">
+    <div class="col-2"> 
+      Data Files:
+    </div>
+    <div class="col-2">
+      <ecutek-dropdownlist [Name]="'ddlDataFiles'" [DisplayValueFieldName]="'DataFile'" [DataSource]="FilteredDataFiles" (OnSelectedItemChange)="OnSelectedItemChange($event)" ></ecutek-dropdownlist>      
+    </div>    
+  </div>
+
+  <div class="row">
+    <div class="col-2"> 
+      Soft Groups:
+    </div>
+    <div class="col-2">
+      <ecutek-dropdownlist [Name]="'ddlSoftGroups'" [DisplayValueFieldName]="'Name'" [DataSource]="SoftGroups" (OnSelectedItemChange)="OnSelectedItemChange($event)" ></ecutek-dropdownlist>      
+    </div>    
+  </div>
+
+
+  <div class="row">
+    <div class="col-2"> 
+      Map Classes:
+    </div>
+    <div class="col-2">
+      <ecutek-dropdownlist [Name]="'ddlMapClasses'" [DisplayValueFieldName]="'MapClassName'" [DataSource]="MapClasses" (OnSelectedItemChange)="OnSelectedItemChange($event)" ></ecutek-dropdownlist>            
+    </div>    
+  </div>
+
+  <div class="row">
+    <div class="col-2">
+      <button type="button" (click)="DownloadFile()">Download File</button>
+    </div>    
+  </div>
+
+</div>
