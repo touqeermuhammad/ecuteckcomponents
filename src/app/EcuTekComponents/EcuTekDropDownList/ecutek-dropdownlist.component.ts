@@ -10,35 +10,29 @@ export class EcuTekDropDownListComponent{
   @Input("DataSource") List:any[];
   SelectedItem:null;
   @Input() DisplayValueFieldName:string;
+  @Input() Name:string;
 
   @Output("OnSelectedItemChange") SelectedItemChange = new EventEmitter<DropDownListEventArgs>();
-  //DataValueFieldName:string;
   constructor() {
     this.List=[]; 
 
-    // this.List.push({"ID":"1", "Car":"BMW"});
-    // this.List.push({"ID":"2", "Car":"Mercedeze"});
-    // this.List.push({"ID":"3", "Car":"Toyota"});
-    // this.List.push({"ID":"4", "Car":"Audi"});
-
-    this.DisplayValueFieldName = "ItemText";
+    this.DisplayValueFieldName = "";
+    this.Name="";
     //this.DataValueFieldName = "ID";
   }
 
   OnItemChange(){
-    console.log("Inner Component Trigger Event");
     let eventArgs:DropDownListEventArgs = new DropDownListEventArgs(this, this.SelectedItem);
     this.SelectedItemChange.emit(eventArgs);
   }
-
 }
 
 export class DropDownListEventArgs{
   Sender:EcuTekDropDownListComponent;
-  SelectedValue:any;
+  SelectedItem:any;
 
-  constructor(sender:EcuTekDropDownListComponent, selectedValue:any){
+  constructor(sender:EcuTekDropDownListComponent, selectedItem:any){
     this.Sender=sender;
-    this.SelectedValue=selectedValue;
+    this.SelectedItem=selectedItem;
   }
 }

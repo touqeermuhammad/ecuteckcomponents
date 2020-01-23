@@ -38,7 +38,7 @@ export class EcuTekMenuComponent{
   }
 
   OnSelectedItemChange($event:DropDownListEventArgs){
-    console.log("Outer Component Trigger Event");
+    console.log($event.Sender);
   }
 
 }
