@@ -20,7 +20,7 @@ import { NotFoundComponent } from './RountingComponents/NotFoundComponent/not-fo
 const appRoutes: Routes = [
   { path: 'crisis-center', component: CrisisListComponent },
   { path: 'heroes-list', component: HeroListComponent },
-  { path: '**', component: HeroListComponent }
+  { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({
