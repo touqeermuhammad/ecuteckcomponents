@@ -17,21 +17,29 @@ import {HeroListComponent} from './RountingComponents/HeroListComponent/hero-lis
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './RountingComponents/NotFoundComponent/not-found.component';
 
+
+import { HttpClientModule } from '@angular/common/http';
+import { DownloadFileService } from './HttpComponents/downloadfile.service';
+
+
 const appRoutes: Routes = [
   { path: 'crisis-center', component: CrisisListComponent },
-  { path: 'heroes-list', component: HeroListComponent },
+  { path: 'heroes-list', component: HeroListComponent }, 
   { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({
   imports:      [ BrowserModule, 
                   FormsModule,
-                   RouterModule.forRoot(
+                  RouterModule.forRoot(
                       appRoutes,
                       { enableTracing: true } // <-- debugging purposes only
-                    ) 
+                  ),
+                  HttpClientModule
+
                 ],
   declarations: [ AppComponent, TestComponent, EcuTekGridComponent, EcuTekFilterComponent, EcuTekMenuComponent, EcuTekDropDownListComponent, ExportComponent, CrisisListComponent, HeroListComponent, NotFoundComponent ],
-  bootstrap:    [ AppComponent ]
+  bootstrap:    [ AppComponent ],
+  providers: [DownloadFileService]
 })
 export class AppModule { }
