@@ -54,5 +54,14 @@
 </div>
 
 <div style="margin-top:20px">
-  <ecutek-dropdownlist [Name]="'ddlItems'" [DisplayValueFieldName]="'ItemText'" [DataSource]="Menu.Items" (OnSelectedItemChange)="OnSelectedItemChange($event)" ></ecutek-dropdownlist>  
+  <ecutek-dropdownlist [Name]="'ddlItems_1'" [DisplayValueFieldName]="'ItemText'" [DataSource]="Menu.Items" (OnSelectedItemChange)="OnSelectedItemChange($event)" (OnInitialisation)="RegisterChildComponent($event)" ></ecutek-dropdownlist>  
+</div>
+
+<div style="margin-top:20px">
+  <ecutek-dropdownlist [Name]="'ddlItems_2'" [DisplayValueFieldName]="'ItemText'" [DataSource]="Menu.Items" (OnSelectedItemChange)="OnSelectedItemChange($event)" (OnInitialisation)="RegisterChildComponent($event)"></ecutek-dropdownlist>  
+</div>
+
+<div style="margin-top:20px">
+  <button (click)="ShowDDL1Vlaue()">DDL1 Value</button>
+  <button (click)="ShowDDL2Vlaue()">DDL2 Value</button>
 </div>

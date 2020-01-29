@@ -1,5 +1,5 @@
-import { Component} from '@angular/core';
-import { DropDownListEventArgs } from '';
+import { Component, ViewChild} from '@angular/core';
+import { EcuTekDropDownListComponent, DropDownListEventArgs } from '/EcuTekComponents/EcuTekDropDownListComponent/ecutek-dropdownlist.component';
 
 @Component({
   selector: 'ecutek-menu',
@@ -12,7 +12,12 @@ export class EcuTekMenuComponent{
   SelectedMenuSubmenus:Menu[];
   List:any[];
 
+  ChildComponents:any[];
+
+
   constructor(){
+    this.ChildComponents = [];
+
     let menu:Menu = new Menu("001", -1, null, null);
     menu.AddMenuItem(new MenuItem("001", "BMW", 1, true));
     menu.AddMenuItem(new MenuItem("002", "Nissan", 2, false));
@@ -33,7 +38,7 @@ export class EcuTekMenuComponent{
 
   }
 
-  ItemMouseOver($event:MouseEvent){    
+  ItemMouseOver($event:MouseEvent){     
 
   }
 
@@ -41,6 +46,19 @@ export class EcuTekMenuComponent{
     console.log($event.Sender);
   }
 
+  RegisterChildComponent($event:DropDownListEventArgs){
+    let component = {Name: $event.Sender.Name, Type:$event.TypeName};
+    this.ChildComponents.push(component);
+  }
+
+  ShowDDL1Vlaue(){
+    console.log(this.ChildComponents[0].Type);
+  }
+
+  ShowDDL2Vlaue(){
+    console.log(this.ChildComponents[1].Name);
+  }
+ 
 }
 
 class Menu{

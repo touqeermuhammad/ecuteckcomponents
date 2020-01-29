@@ -7,7 +7,7 @@ export class DownloadFileService {
 
   constructor(private http: HttpClient) { }
 
-  public async DownloadFile(url): Observable<Object> {
+  public async DownloadFile(url): Promise<Object> {
 
     const httpOptions = {
             headers: new HttpHeaders({
@@ -17,6 +17,6 @@ export class DownloadFileService {
             responseType: 'blob' as 'json'
           };
 
-    return this.http.get(url, httpOptions);
+    return this.http.get(url, httpOptions).toPromise();
   }
 }
