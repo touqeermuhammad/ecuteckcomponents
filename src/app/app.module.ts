@@ -21,7 +21,7 @@ import { NotFoundComponent } from './RountingComponents/NotFoundComponent/not-fo
 import { HttpClientModule } from '@angular/common/http';
 import { DownloadFileService } from './HttpComponents/downloadfile.service';
 import { ViewChildCompComponent } from './EcuTekComponents/ViewChildExample/view-child-comp/view-child-comp.component';
-import { EcutekBasecomponentComponent } from './EcuTekComponents/EcuTekBase/ecutek-base.component';
+//import { EcutekBasecomponentComponent } from './EcuTekComponents/EcuTekBase/ecutek-base.component';
 
 
 const appRoutes: Routes = [
@@ -40,7 +40,7 @@ const appRoutes: Routes = [
                   HttpClientModule
 
                 ],
-  declarations: [ AppComponent, TestComponent, EcuTekGridComponent, EcuTekFilterComponent, EcuTekMenuComponent, EcuTekDropDownListComponent, ExportComponent, CrisisListComponent, HeroListComponent, NotFoundComponent, ViewChildCompComponent, EcutekBasecomponentComponent ],
+  declarations: [ AppComponent, TestComponent, EcuTekGridComponent, EcuTekFilterComponent, EcuTekMenuComponent, EcuTekDropDownListComponent, ExportComponent, CrisisListComponent, HeroListComponent, NotFoundComponent, ViewChildCompComponent ],
   bootstrap:    [ AppComponent ],
   providers: [DownloadFileService]
 })
