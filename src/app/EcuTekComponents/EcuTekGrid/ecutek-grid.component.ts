@@ -1,4 +1,4 @@
-import { Component, Input, Output } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { EcuTekBaseComponent } from "../../EcuTekComponents/EcuTekBase/ecutek-base.component";
 
 @Component({
@@ -7,34 +7,7 @@ import { EcuTekBaseComponent } from "../../EcuTekComponents/EcuTekBase/ecutek-ba
   styleUrls: ["./ecutek-grid.component.css"]
 })
 export class EcuTekGridComponent extends EcuTekBaseComponent {
-  List = [
-    {
-      CustomerId: "1",
-      CustomerName: "Three",
-      Email: "three@three.co.com",
-      Years: 22,
-      IsActive: true,
-      StartDate: new Date("2000-01-01")
-    },
-    {
-      CustomerId: "2",
-      CustomerName: "Vodafone",
-      Email: "vodafone@vodafone.co.uk",
-      Years: 25,
-      IsActive: false,
-      StartDate: new Date("2005-07-15")
-    },
-    {
-      CustomerId: "3",
-      CustomerName: "O2",
-      Email: "o2@o2.co.uk",
-      Years: 25,
-      IsActive: true,
-      StartDate: new Date("2003-12-10")
-    }
-  ];
-
-  DataSource: DataSource;
+  private _DataSource: DataSource;
   Columns: Column[];
   Rows: Row[];
 
@@ -45,13 +18,17 @@ export class EcuTekGridComponent extends EcuTekBaseComponent {
   @Input() BooleanPresenationValue: { trueValue: "Yes"; falseValue: "No" };
   @Input() DatePresentationValue: string;
 
+  @Output() PerformatAction = new EventEmitter<EcuTekGridEventArgs>();
+
   private ColumnIndex: number;
   private FilterColumns: Column[];
+
+  ActionButtons: Action[];
 
   constructor() {
     super();
 
-    this.DataSource = null;
+    this._DataSource = null;
     this.Rows = [];
     this.Columns = [];
 
@@ -63,17 +40,33 @@ export class EcuTekGridComponent extends EcuTekBaseComponent {
     this.DatePresentationValue = "dd/MM/yyyy HH:mm:ss";
     this.ColumnIndex = 0;
     this.FilterColumns = [];
+    this.ActionButtons = [];
 
-    if (this.List.length > 0) {
-      let colKeys = Object.keys(this.List[0]);
+    this.ActionButtons.push(new Action("buttonFileDownload", "Download File"))
+  }
+
+  @Input()
+  set DataSource(list: any[]) {
+    this._DataSource = new DataSource(list);
+    this.BuildTable();
+  }
+
+  private BuildTable() {
+    let list: ListItem[] = this._DataSource.List;
+    this.Rows = [];
+    this.Columns = [];
+    let rowIndex = 0;
+
+    if (list.length > 0) {
+      let colKeys = Object.keys(list[0].Obj);
       for (let key in colKeys) {
         let column: Column = new Column(
           key,
           colKeys[key],
-          Object.prototype.toString.call(this.List[0][colKeys[key]]) ==
+          Object.prototype.toString.call(list[0].Obj[colKeys[key]]) ==
           "[object Date]"
             ? "datetime"
-            : typeof this.List[0][colKeys[key]],
+            : typeof list[0].Obj[colKeys[key]],
           null,
           null,
           -1
@@ -96,40 +89,34 @@ export class EcuTekGridComponent extends EcuTekBaseComponent {
         this.Columns.push(column);
       }
 
-      this.DataSource = new DataSource(this.List);
-
-      this.BuildTable(this.DataSource.List);
-    }
-  }
-
-  private BuildTable(list: ListItem[]) {
-    this.Rows = [];
-    let rowIndex = 0;
-    for (let x in list) {
-      let cells: Cell[] = [];
-      for (let y in this.Columns) {
-        let cell: Cell = new Cell(
-          y,
-          list[x].Obj[this.Columns[y].ColumnName],
-          list[x].Obj[this.Columns[y].ColumnName]
+      for (let x in list) {
+        let cells: Cell[] = [];
+        for (let y in this.Columns) {
+          let cell: Cell = new Cell(
+            y,
+            list[x].Obj[this.Columns[y].ColumnName],
+            list[x].Obj[this.Columns[y].ColumnName]
+          );
+          cells.push(cell);
+        }
+        let row: Row = new Row(
+          rowIndex.toString(),
+          true,
+          false,
+          parseInt(x) % 2 == 0 ? true : false,
+          cells
         );
-        cells.push(cell);
+        row.RowKey = list[x].Key;
+        this.Rows.push(row);
+        rowIndex++;
       }
-      let row: Row = new Row(
-        rowIndex.toString(),
-        true,
-        false,
-        parseInt(x) % 2 == 0 ? true : false,
-        cells
-      );
-      row.RowKey = list[x].Key;
-      this.Rows.push(row);
-      rowIndex++;
     }
   }
 
   private DisplayValue(value: any, cellIndex: string) {
     let column: Column = this.Columns[cellIndex];
+
+    debugger;
 
     let formatter: Formatter = column.Format;
     formatter.Value = value;
@@ -139,7 +126,21 @@ export class EcuTekGridComponent extends EcuTekBaseComponent {
   private OnEditClick(event?: MouseEvent) {
     let target = <HTMLElement>event.target;
     let rowId = target.attributes["rowid"].value;
-    this.Rows[rowId].IsEditMode = true;
+    let row: Row = this.Rows[rowId];
+
+    let objItem: ListItem = this._DataSource.List.find(function(item) {
+      return item.Key == row.RowKey;
+    });
+
+    if (objItem != undefined) {
+      let eventArgs: EcuTekGridEventArgs = new EcuTekGridEventArgs(
+        this,
+        "Edit",
+        objItem
+      );
+      this.PerformatAction.emit(eventArgs);
+    }
+    row.IsEditMode = true;
   }
 
   private OnDeleteClick(event?: MouseEvent) {
@@ -147,15 +148,22 @@ export class EcuTekGridComponent extends EcuTekBaseComponent {
     let rowId = target.attributes["rowid"].value;
     let row: Row = this.Rows[rowId];
 
-    let itemIndex: number = this.DataSource.List.findIndex(function(item) {
+    let itemIndex: number = this._DataSource.List.findIndex(function(item) {
       if (item == null || item == undefined) return false;
       return item.Key == row.RowKey;
     });
     if (itemIndex != undefined) {
-      delete this.DataSource.List[itemIndex];
+      let eventArgs: EcuTekGridEventArgs = new EcuTekGridEventArgs(
+        this,
+        "Delete",
+        this._DataSource.List[itemIndex]
+      );
+      this.PerformatAction.emit(eventArgs);
+
+      this._DataSource.List.splice(itemIndex, 1);
     }
-    delete this.Rows[rowId];
-    this.BuildTable(this.DataSource.List);
+    this.Rows.splice(rowId, 1);
+    //this.BuildTable(this.DataSource.List);
   }
 
   private OnCancelClick(event?: MouseEvent) {
@@ -165,6 +173,22 @@ export class EcuTekGridComponent extends EcuTekBaseComponent {
     for (let x in this.Rows[rowId].Cells) {
       row.Cells[x].Value = row.Cells[x].OrignalValue;
     }
+
+    let itemIndex: number = this._DataSource.List.findIndex(function(item) {
+      if (item == null || item == undefined) return false;
+      return item.Key == row.RowKey;
+    });
+
+    if (itemIndex != undefined) {
+      let eventArgs: EcuTekGridEventArgs = new EcuTekGridEventArgs(
+        this,
+        "Cancel",
+        this._DataSource.List[itemIndex]
+      );
+
+      this.PerformatAction.emit(eventArgs);
+    }
+
     row.IsEditMode = false;
   }
 
@@ -172,19 +196,45 @@ export class EcuTekGridComponent extends EcuTekBaseComponent {
     let target = <HTMLElement>event.target;
     let rowId = target.attributes["rowid"].value;
     let row: Row = this.Rows[rowId];
-    let objItem: ListItem = this.DataSource.List.find(function(item) {
+    let objItem: ListItem = this._DataSource.List.find(function(item) {
       return item.Key == row.RowKey;
     });
 
-    for (let x in this.Rows[rowId].Cells) {
-      row.Cells[x].OrignalValue = row.Cells[x].Value;
-      let column: Column = this.Columns[row.Cells[x].CellIndex];
-
-      if (objItem != undefined) {
+    if (objItem != undefined) {
+      for (let x in this.Rows[rowId].Cells) {
+        row.Cells[x].OrignalValue = row.Cells[x].Value;
+        let column: Column = this.Columns[row.Cells[x].CellIndex];
         objItem.Obj[column.ColumnName] = row.Cells[x].Value;
       }
+      let eventArgs: EcuTekGridEventArgs = new EcuTekGridEventArgs(
+        this,
+        "Save",
+        objItem
+      );
+      this.PerformatAction.emit(eventArgs);
     }
-    this.Rows[rowId].IsEditMode = false;
+
+    row.IsEditMode = false;
+  }
+
+  private OnActionButtonClick(event: MouseEvent) {
+    let target = <HTMLElement>event.target;
+    let rowId = target.attributes["rowid"].value;
+    let actionName = target.attributes["actionname"].value;
+
+    let row: Row = this.Rows[rowId];
+    let objItem: ListItem = this._DataSource.List.find(function(item) {
+      return item.Key == row.RowKey;
+    });
+
+    if (objItem != undefined) {
+       let eventArgs: EcuTekGridEventArgs = new EcuTekGridEventArgs(
+        this,
+        actionName,
+        objItem
+      );
+      this.PerformatAction.emit(eventArgs);
+    }
   }
 
   SortByAscendingOrderClick() {
@@ -379,11 +429,15 @@ class DataSource {
   List: ListItem[];
 
   constructor(list: any[]) {
-    this.List = [];
-    for (let item in list) {
-      let listItem: ListItem = new ListItem(this.GUID(), list[item]);
-      this.List.push(listItem);
-    }
+    let objInstance = this;
+    this.List = list.map(function(currentValue) {
+      return new ListItem(objInstance.GUID(), currentValue);
+    });
+
+    // for (let item in list) {
+    //   let listItem: ListItem = new ListItem(this.GUID(), list[item]);
+    //   this.List.push(listItem);
+    // }
   }
 
   private GUID(): any {
@@ -639,4 +693,28 @@ class Criteria {
   DataType: string;
 
   constructor() {}
+}
+
+//************************ EcuTekGridComponent Event Class *****************/
+
+class EcuTekGridEventArgs {
+  Sender: EcuTekGridComponent;
+  ActionName: string;
+  Item: ListItem;
+
+  constructor(sender: EcuTekGridComponent, actioName: string, item: ListItem) {
+    this.Sender = sender;
+    this.ActionName = actioName;
+    this.Item = item;
+  }
+}
+
+class Action {
+  ActionName: string;
+  ActionText: string;
+
+  constructor(actionName: string, actionText: string) {
+    this.ActionName = actionName;
+    this.ActionText = actionText;
+  }
 }
