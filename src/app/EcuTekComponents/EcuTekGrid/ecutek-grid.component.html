@@ -1,5 +1,5 @@
 
-<h2>Customer List</h2>
+<h2>{{HeadingText}}</h2>
 
 <table>
   <thead>
@@ -8,7 +8,7 @@
         {{(x.ColumnText == null || x.ColumnText == "") ? x.ColumnName : x.ColumnTex}} 
       </th>
     </tr>
-    <tr>
+    <tr *ngIf="IsFilterShow" >
       <th *ngFor="let x of Columns" [attr.columnid]="x.ColumnIndex" [attr.columntype]="x.DataType" >
         <span *ngIf="x.DataType=='string'">
           <input class="filterInput" type="text" [(ngModel)]="x.FilterValue"/>
@@ -22,13 +22,14 @@
         <span *ngIf="x.DataType=='datetime'">
           <input class="filterInput" type="date" [(ngModel)]="x.FilterValue"/>
         </span>
-        <button class="filterButton" type="button" [attr.columnid]="x.ColumnIndex" [attr.columntype]="x.DataType" (click)="Filter($event)">
+
+        <!-- <button class="filterButton" type="button" [attr.columnid]="x.ColumnIndex" [attr.columntype]="x.DataType" (click)="Filter($event)">
           <img src="https://img.icons8.com/android/24/000000/filter.png"> 
         </button>
         
         <button class="clearFilterButton" type="button" [attr.columnid]="x.ColumnIndex" [attr.columntype]="x.DataType" (click)="ClearColumnFilter($event)">
           Remove Filter
-        </button>
+        </button> -->
 
       </th>
     </tr>
@@ -72,7 +73,7 @@
   </tbody>
 </table>
 
-<div>
+<div style="display:none">
   <input type="number" [(ngModel)]="ColumnIndex"/>
   <button type="button" (click)=SortByAscendingOrderClick()>Ascen</button>
   <button type="button" (click)=SortByDescendingOrderClick()>Descen</button>

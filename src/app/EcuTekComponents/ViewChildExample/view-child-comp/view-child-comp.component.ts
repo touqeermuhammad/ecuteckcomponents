@@ -7,7 +7,7 @@ export class Pane {
 
 @Component({
   selector: 'app-view-child-comp',
-  templateUrl: './view-child-comp.component.html',
+  template: `No View`,
   styleUrls: ['./view-child-comp.component.css']
 })
 export class ViewChildCompComponent implements OnInit {

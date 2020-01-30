@@ -1,47 +1,41 @@
-import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, Input, Output, EventEmitter} from '@angular/core';
+import { EcuTekBaseComponent } from '../../EcuTekComponents/EcuTekBase/ecutek-base.component';
 
 @Component({
   selector: "ecutek-dropdownlist",
   templateUrl: "./ecutek-dropdownlist.component.html",
   styleUrls: ["./ecutek-dropdownlist.component.css"]
 })
-export class EcuTekDropDownListComponent implements OnInit{
+export class EcuTekDropDownListComponent extends EcuTekBaseComponent{
 
-  @Input("DataSource") List:any[];
-  SelectedItem:null;
-  @Input() DisplayValueFieldName:string;
-  @Input() Name:string;
+  @Input("DataSource") List: any[];
+  SelectedItem: any;
+  @Input() DisplayValueFieldName: string;
+  
 
   @Output("OnSelectedItemChange") SelectedItemChange = new EventEmitter<DropDownListEventArgs>();
-  @Output("OnInitialisation") RegisterComponentToParent = new EventEmitter<DropDownListEventArgs>();
-
   constructor() {
-    this.List=[]; 
+    super();
 
+    this.List = [];
+    this.SelectedItem = {};
     this.DisplayValueFieldName = "";
-    this.Name="";
     //this.DataValueFieldName = "ID";
   }
 
-  OnItemChange(){
-    let eventArgs:DropDownListEventArgs = new DropDownListEventArgs(this, this.SelectedItem);
+  OnItemChange() {
+    let eventArgs: DropDownListEventArgs = new DropDownListEventArgs(this, this.SelectedItem);
     this.SelectedItemChange.emit(eventArgs);
   }
 
-
-  ngOnInit(){
-     let typeName:string = this.constructor.toString().replace("function ", "").substring(0,this.constructor.toString().replace("function ", "").indexOf('('));
-    let eventArgs:DropDownListEventArgs = new DropDownListEventArgs(this, typeName);
-    this.RegisterComponentToParent.emit(eventArgs);
-  }
 }
  
-export class DropDownListEventArgs{
-  Sender:EcuTekDropDownListComponent;
-  TypeName:String;
+export class DropDownListEventArgs {
+  Sender: EcuTekDropDownListComponent;
+  SelectedItem: any;
 
-  constructor(sender:EcuTekDropDownListComponent, typeName:string){
-    this.Sender=sender;
-    this.TypeName=typeName;
+  constructor(sender: EcuTekDropDownListComponent, selectedItem: any) {
+    this.Sender = sender;
+    this.SelectedItem = selectedItem;
   }
 }
