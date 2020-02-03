@@ -64,7 +64,7 @@ export class EcuTekGridComponent extends EcuTekBaseComponent {
           key,
           colKeys[key],
           Object.prototype.toString.call(list[0].Obj[colKeys[key]]) ==
-          "[object Date]"
+            "[object Date]"
             ? "datetime"
             : typeof list[0].Obj[colKeys[key]],
           null,
@@ -128,7 +128,7 @@ export class EcuTekGridComponent extends EcuTekBaseComponent {
     let rowId = target.attributes["rowid"].value;
     let row: Row = this.Rows[rowId];
 
-    let objItem: ListItem = this._DataSource.List.find(function(item) {
+    let objItem: ListItem = this._DataSource.List.find(function (item) {
       return item.Key == row.RowKey;
     });
 
@@ -148,7 +148,7 @@ export class EcuTekGridComponent extends EcuTekBaseComponent {
     let rowId = target.attributes["rowid"].value;
     let row: Row = this.Rows[rowId];
 
-    let itemIndex: number = this._DataSource.List.findIndex(function(item) {
+    let itemIndex: number = this._DataSource.List.findIndex(function (item) {
       if (item == null || item == undefined) return false;
       return item.Key == row.RowKey;
     });
@@ -174,7 +174,7 @@ export class EcuTekGridComponent extends EcuTekBaseComponent {
       row.Cells[x].Value = row.Cells[x].OrignalValue;
     }
 
-    let itemIndex: number = this._DataSource.List.findIndex(function(item) {
+    let itemIndex: number = this._DataSource.List.findIndex(function (item) {
       if (item == null || item == undefined) return false;
       return item.Key == row.RowKey;
     });
@@ -196,7 +196,7 @@ export class EcuTekGridComponent extends EcuTekBaseComponent {
     let target = <HTMLElement>event.target;
     let rowId = target.attributes["rowid"].value;
     let row: Row = this.Rows[rowId];
-    let objItem: ListItem = this._DataSource.List.find(function(item) {
+    let objItem: ListItem = this._DataSource.List.find(function (item) {
       return item.Key == row.RowKey;
     });
 
@@ -223,12 +223,12 @@ export class EcuTekGridComponent extends EcuTekBaseComponent {
     let actionName = target.attributes["actionname"].value;
 
     let row: Row = this.Rows[rowId];
-    let objItem: ListItem = this._DataSource.List.find(function(item) {
+    let objItem: ListItem = this._DataSource.List.find(function (item) {
       return item.Key == row.RowKey;
     });
 
     if (objItem != undefined) {
-       let eventArgs: EcuTekGridEventArgs = new EcuTekGridEventArgs(
+      let eventArgs: EcuTekGridEventArgs = new EcuTekGridEventArgs(
         this,
         actionName,
         objItem
@@ -246,13 +246,13 @@ export class EcuTekGridComponent extends EcuTekBaseComponent {
   }
 
   RefreshClick() {
-    this.BuildTable(this.DataSource.List);
+    this.BuildTable();
   }
 
   SoryBy(colIndex: number, isAcending: boolean) {
     let column: Column = this.Columns[colIndex];
 
-    this.DataSource.List.sort(function(a, b) {
+    this._DataSource.List.sort(function (a, b) {
       if (typeof a.Obj[column.ColumnName] == "string") {
         let x = a.Obj[column.ColumnName].toLowerCase();
         let y = b.Obj[column.ColumnName].toLowerCase();
@@ -293,7 +293,7 @@ export class EcuTekGridComponent extends EcuTekBaseComponent {
       }
     });
 
-    this.BuildTable(this.DataSource.List);
+    this.BuildTable();
   }
 
   private ClearFilterAll() {
@@ -306,7 +306,7 @@ export class EcuTekGridComponent extends EcuTekBaseComponent {
     let colmunIndex = target.attributes["columnid"].value;
     let column: Column = this.Columns[colmunIndex];
     column.FilterValue = "";
-    let filterColumnIndex = this.FilterColumns.findIndex(function(current) {
+    let filterColumnIndex = this.FilterColumns.findIndex(function (current) {
       if (current == undefined) return;
       return current.ColumnIndex == column.ColumnIndex;
     });
@@ -323,7 +323,7 @@ export class EcuTekGridComponent extends EcuTekBaseComponent {
     let colmunIndex = target.attributes["columnid"].value;
     let column: Column = this.Columns[colmunIndex];
     column.FilterOperation = "equalto";
-    let filterColumnIndex = this.FilterColumns.findIndex(function(current) {
+    let filterColumnIndex = this.FilterColumns.findIndex(function (current) {
       if (current == undefined) return;
       return current.ColumnIndex == column.ColumnIndex;
     });
@@ -342,12 +342,12 @@ export class EcuTekGridComponent extends EcuTekBaseComponent {
 
   private ApplyFilter() {
     let filterColumns: Column[] = this.FilterColumns;
-    let filteredList: ListItem[] = this.DataSource.List;
+    let filteredList: ListItem[] = this._DataSource.List;
 
     for (let item in filterColumns) {
       let column: Column = filterColumns[item];
       let filter: Filter = FilterFactory.GetFilterInstance(column.DataType);
-      filteredList = filteredList.filter(function(currntValue, index) {
+      filteredList = filteredList.filter(function (currntValue, index) {
         if (column == undefined) return false;
         let value: any = currntValue.Obj[column.ColumnName];
         let isTrue = filter.ApplyFilter(column, value);
@@ -355,7 +355,7 @@ export class EcuTekGridComponent extends EcuTekBaseComponent {
       });
     }
 
-    this.BuildTable(filteredList);
+    this.BuildTable();
   }
 }
 
@@ -430,7 +430,7 @@ class DataSource {
 
   constructor(list: any[]) {
     let objInstance = this;
-    this.List = list.map(function(currentValue) {
+    this.List = list.map(function (currentValue) {
       return new ListItem(objInstance.GUID(), currentValue);
     });
 
@@ -442,7 +442,7 @@ class DataSource {
 
   private GUID(): any {
     var dt = new Date().getTime();
-    var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(
+    var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (
       c
     ) {
       var r = (dt + Math.random() * 16) % 16 | 0;
@@ -520,12 +520,12 @@ class DateFormatter extends Formatter {
     return this.DateFormatValue == null || this.DateFormatValue == ""
       ? this.Value
       : this.DateFormatValue.replace("yyyy", year)
-          .replace("MM", month)
-          .replace("dd", day)
-          .replace("HH", hours)
-          .replace("hh", hours)
-          .replace("mm", minutes)
-          .replace("ss", seconds);
+        .replace("MM", month)
+        .replace("dd", day)
+        .replace("HH", hours)
+        .replace("hh", hours)
+        .replace("mm", minutes)
+        .replace("ss", seconds);
   }
 }
 
@@ -692,7 +692,7 @@ class FilterFactory {
 class Criteria {
   DataType: string;
 
-  constructor() {}
+  constructor() { }
 }
 
 //************************ EcuTekGridComponent Event Class *****************/

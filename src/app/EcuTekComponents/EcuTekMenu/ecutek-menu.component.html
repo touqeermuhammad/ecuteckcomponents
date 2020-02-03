@@ -1,6 +1,6 @@
 <!-- <ul *ngFor="let menu of Menus"> -->
 <ul>
-	<li *ngFor="let item of Menu.Items" [class.IsDisabled]="!item.IsActive" [attr.itemid]="item.ItemId"
+	<li *ngFor="let item of MenuList" [class.IsDisabled]="!item.IsActive" [attr.itemid]="item.ItemId"
 		[attr.itemindex]="item.ItemIndex" [attr.isactive]="item.IsActive" [attr.level]="Menu.Level"
 		(mouseover)="ItemMouseOver($event)">
 		<span class="spanLeft"
@@ -8,60 +8,15 @@
       [attr.itemid]="item.ItemId"
       [attr.itemindex]="item.ItemIndex"
       [attr.isactive]="item.IsActive"
-      [attr.level]="Menu.Level"
       (mouseover)="ItemMouseOver($event)"></span>
 		<span class="spanRight"
       [class.IsDisabled]="!item.IsActive"
       [attr.itemid]="item.ItemId"
       [attr.itemindex]="item.ItemIndex"
       [attr.isactive]="item.IsActive"
-      [attr.level]="Menu.Level"
       (mouseover)="ItemMouseOver($event)">{{item.ItemText}}</span>
+
+      <ecutek-menu [DataSource]="item.Children" ></ecutek-menu>
 	</li>
 </ul>
 
-<div class="submenuContents" *ngIf="SelectedSubmenus != null">
-	<!-- <ul *ngFor="let submenu of SelectedMenuSubmenus"> -->
-	<ul>
-		<li *ngFor="let submenuItem of SelectedSubmenus.Items" [class.IsDisabled]="!submenuItem.IsActive"
-			[attr.itemid]="submenuItem.ItemId" [attr.itemindex]="submenuItem.ItemIndex"
-			[attr.isactive]="submenuItem.IsActive" [attr.level]="SelectedSubmenus.Level"
-			(mouseover)="ItemMouseOver($event)">
-
-			<span class="spanLeft"
-      [class.IsDisabled]="!submenuItem.IsActive"
-      [attr.itemid]="submenuItem.ItemId"
-      [attr.itemindex]="submenuItem.ItemIndex"
-      [attr.isactive]="submenuItem.IsActive"
-      [attr.level]="SelectedSubmenus.Level"
-      (mouseover)="ItemMouseOver($event)"></span>
-			<span class="spanRight"
-      [class.IsDisabled]="!submenuItem.IsActive"
-      [attr.itemid]="submenuItem.ItemId"
-      [attr.itemindex]="submenuItem.ItemIndex"
-      [attr.isactive]="submenuItem.IsActive"
-      [attr.level]="SelectedSubmenus.Level"
-      (mouseover)="ItemMouseOver($event)">{{submenuItem.ItemText}}</span>
-		</li>
-	</ul>
-</div>
- 
-<div style="margin-top:20px">
-	<ecutek-dropdownlist [Name]="'ddlItems_1'" [DisplayValueFieldName]="'ItemText'" [DataSource]="Menu.Items"
-		(OnSelectedItemChange)="OnSelectedItemChange($event)" (OnInitialisation)="RegisterChildComponent($event)">
-	</ecutek-dropdownlist>
-</div>
-
-<div style="margin-top:20px">
-	<ecutek-dropdownlist [Name]="'ddlItems_2'" [DisplayValueFieldName]="'ItemText'" [DataSource]="Menu.Items"
-		(OnSelectedItemChange)="OnSelectedItemChange($event)" (OnInitialisation)="RegisterChildComponent($event)">
-	</ecutek-dropdownlist>
-</div>
-
-<div style="margin-top:20px">
-	<button (click)="ShowDDL1Vlaue()">DDL1 Value</button>
-	<button (click)="ShowDDL2Vlaue()">DDL2 Value</button>
-</div>
-
-
-<ecutek-grid [Name]="'grdTest'" [HeadingText]="'Test'" [IsEditAllowed]="false" [IsDeleteAllowed]="false" [DatePresentationValue]="'dd/MM/yyyy HH:mm:ss'" [BooleanPresenationValue]="BooleanPresenationValue" [DataSource]="DataSource" (PerformatAction)="PerformGridActions($event)"></ecutek-grid>  

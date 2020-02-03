@@ -1,8 +1,4 @@
-import { Component, ViewChild } from "@angular/core";
-import {
-  EcuTekDropDownListComponent,
-  DropDownListEventArgs
-} from "/EcuTekComponents/EcuTekDropDownListComponent/ecutek-dropdownlist.component";
+import { Component, Input } from "@angular/core";
 
 @Component({
   selector: "ecutek-menu",
@@ -10,158 +6,142 @@ import {
   styleUrls: ["./ecutek-menu.component.css"]
 })
 export class EcuTekMenuComponent {
-  Menu: Menu;
-  SelectedMenuSubmenus: Menu[];
-  List: any[];
-  DataSource:any[];
-  BooleanPresenationValue: {};
-
-  ChildComponents: any[];
+  MenuList: MenuItem[];
 
   constructor() {
-    this.DataSource = [
-      {
-        CustomerId: "1",
-        CustomerName: "Three",
-        Email: "three@three.co.com",
-        Years: 22,
-        IsActive: true,
-        StartDate: new Date("2000-01-01")
-      }, 
-      {
-        CustomerId: "2",
-        CustomerName: "Vodafone",
-        Email: "vodafone@vodafone.co.uk",
-        Years: 25,
-        IsActive: false,
-        StartDate: new Date("2005-07-15")
-      },
-      {
-        CustomerId: "3",
-        CustomerName: "O2",
-        Email: "o2@o2.co.uk",
-        Years: 25,
-        IsActive: true,
-        StartDate: new Date("2003-12-10")
+    this.MenuList = [];
+    // let menu: Menu = new Menu(-1, null, null);
+    // menu.AddMenuItem(new MenuItem("BMW", 1, true));
+    // menu.AddMenuItem(new MenuItem("Nissan", 2, false));
+    // menu.AddMenuItem(new MenuItem("Toyota", 3, true));
+    // menu.Items[0].AddChild(new MenuItem("3 Series", 1.1, true));
+    // menu.Items[0].AddChild(new MenuItem("5 Series", 1.2, true));
+    // menu.Items[0].AddChild(new MenuItem("7 Series", 1.3, true));
+    // this.Menu = menu;
+  }
+
+  @Input()
+  DataSource(items: MenuItem[]) {
+    this.BuildMenu(items);
+  }
+
+  private BuildMenu(items: MenuItem[]) {
+    this.MenuList = [];
+
+    for (let x of items) {
+      let menuItem: MenuItem = new MenuItem(
+        x.ItemText,
+        x.ItemValue,
+        x.IsActive
+      );
+      this.MenuList.push(menuItem);
+
+      if (x.Children.length > 0) {
+        this.AddChildren(x.Children, menuItem);
       }
-    ];
+    }
+  }
 
-    this.BooleanPresenationValue = { trueValue: "Yes", falseValue: "No" }; 
+  private AddChildren(children: MenuItem[], parent: MenuItem) {
+    for (let x of children) {
+      let menuItem: MenuItem = new MenuItem(
+        x.ItemText,
+        x.ItemValue,
+        x.IsActive
+      );
+      parent.Children.push(menuItem);
 
-    this.ChildComponents = [];
-
-    let menu: Menu = new Menu("001", -1, null, null);
-    menu.AddMenuItem(new MenuItem("001", "BMW", 1, true));
-    menu.AddMenuItem(new MenuItem("002", "Nissan", 2, false));
-    menu.AddMenuItem(new MenuItem("003", "Toyota", 3, true));
-
-    this.Menu = menu;
-
-    let submenu: Menu = new Menu("001", 0, null, null);
-    submenu.AddMenuItem(new MenuItem("001", "3 Series", 1, true));
-    submenu.AddMenuItem(new MenuItem("002", "5 Series", 2, false));
-    submenu.AddMenuItem(new MenuItem("003", "7 Series", 3, true));
-
-    menu.AddSubmenu(submenu);
-    // this.Menus = [];
-    // this.Menus.push(menu);
-
-    this.SelectedMenuSubmenus = [];
+      if (x.Children.length > 0) {
+        this.AddChildren(x.Children, menuItem);
+      }
+    }
   }
 
   ItemMouseOver($event: MouseEvent) {}
-
-  OnSelectedItemChange($event: DropDownListEventArgs) {
-    console.log($event.Sender);
-  }
-
-  RegisterChildComponent($event: DropDownListEventArgs) {
-    let component = { Name: $event.Name, Type: $event.TypeName };
-    this.ChildComponents.push(component);
-  }
-
-  PerformGridActions($event:any){
-
-  }
-
-  ShowDDL1Vlaue() {
-    console.log(this.ChildComponents[0].Type);
-  }
-
-  ShowDDL2Vlaue() {
-    console.log(this.ChildComponents[1].Name);
-  }
 }
 
-class Menu {
-  MenuId: string;
-  Items: MenuItem[];
-  Submenus: Menu[];
-  RootLevel: number;
+// class Menu {
+//   MenuId: string;
+//   Items: MenuItem[];
 
-  constructor(
-    menuId: string,
-    rootLevel: number,
-    items: MenuItem[],
-    submenus: Menu[]
-  ) {
-    this.MenuId = menuId;
-    this.RootLevel = rootLevel;
-    this.Items = items == null ? [] : items;
-    this.Submenus = submenus == null ? [] : submenus;
-  }
+//   constructor(rootLevel: number, items: MenuItem[], submenus: Menu[]) {
+//     this.MenuId = this.GUID();
+//     this.Items = items == null ? [] : items;
+//   }
 
-  AddMenuItem(menuItem: MenuItem) {
-    this.Items.push(menuItem);
-  }
+//   private GUID(): any {
+//     var dt = new Date().getTime();
+//     var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(
+//       c
+//     ) {
+//       var r = (dt + Math.random() * 16) % 16 | 0;
+//       dt = Math.floor(dt / 16);
+//       return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
+//     });
+//     return uuid;
+//   }
 
-  RemoveMenuItemById(itemId: string) {
-    let itemIndex = this.Items.findIndex(function(currentItem) {
-      return currentItem.ItemId == itemId;
-    });
+//   AddMenuItem(menuItem: MenuItem) {
+//     this.Items.push(menuItem);
+//   }
 
-    if (itemIndex == undefined || itemIndex == -1) return;
-    this.RemoveMenuItemByIndex(itemIndex);
-  }
+//   RemoveMenuItemById(itemId: string) {
+//     let itemIndex = this.Items.findIndex(function(currentItem) {
+//       return currentItem.ItemId == itemId;
+//     });
 
-  RemoveMenuItemByIndex(index: number) {
-    if (index < 0 && index >= this.Items.length) return;
-    this.Items.splice(index, 0);
-  }
+//     if (itemIndex == undefined || itemIndex == -1) return;
+//     this.RemoveMenuItemByIndex(itemIndex);
+//   }
 
-  AddSubmenu(menu: Menu) {
-    this.Submenus.push(menu);
-  }
+//   RemoveMenuItemByIndex(index: number) {
+//     if (index < 0 && index >= this.Items.length) return;
+//     this.Items.splice(index, 0);
+//   }
+// }
 
-  RemoveSuybmenuById(submenuId: string) {
-    let submenuIndex = this.Submenus.findIndex(function(currentItem) {
-      return currentItem.MenuId == submenuId;
-    });
-
-    if (submenuIndex == undefined || submenuIndex == -1) return;
-    this.RemoveMenuItemByIndex(submenuIndex);
-  }
-
-  RemoveSubmenuItemByIndex(index: number) {
-    if (index < 0 && index >= this.Items.length) return;
-    this.Submenus.splice(index, 0);
-  }
-}
 class MenuItem {
   ItemId: string;
   ItemText: string;
   ItemValue: any;
   IsActive: boolean;
+  Children: MenuItem[];
 
-  constructor(
-    itemId: string,
-    itmeText: string,
-    itmeValue: any,
-    isActive: boolean
-  ) {
-    this.ItemId = itemId;
+  constructor(itmeText: string, itmeValue: any, isActive: boolean) {
+    this.ItemId = this.GUID();
     this.ItemText = itmeText;
     this.ItemValue = itmeValue;
     this.IsActive = isActive;
+    this.Children = [];
+  }
+
+  private GUID(): any {
+    var dt = new Date().getTime();
+    var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(
+      c
+    ) {
+      var r = (dt + Math.random() * 16) % 16 | 0;
+      dt = Math.floor(dt / 16);
+      return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
+    });
+    return uuid;
+  }
+
+  AddChild(menuItem: MenuItem) {
+    this.Children.push(menuItem);
+  }
+
+  RemoveChildItemById(itemId: string) {
+    let itemIndex = this.Children.findIndex(function(currentItem) {
+      return currentItem.ItemId == itemId;
+    });
+
+    if (itemIndex == undefined || itemIndex == -1) return;
+    this.RemoveChildItemByIndex(itemIndex);
+  }
+
+  RemoveChildItemByIndex(index: number) {
+    if (index < 0 && index >= this.Children.length) return;
+    this.Children.splice(index, 0);
   }
 }
