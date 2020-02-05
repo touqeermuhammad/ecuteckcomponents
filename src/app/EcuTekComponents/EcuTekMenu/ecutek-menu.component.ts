@@ -1,27 +1,25 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, Output, EventEmitter, Injectable } from "@angular/core";
+import { EcuTekBaseComponent } from "../../EcuTekComponents/EcuTekBase/ecutek-base.component";
+
 
 @Component({
   selector: "ecutek-menu",
   templateUrl: "./ecutek-menu.component.html",
   styleUrls: ["./ecutek-menu.component.css"]
 })
-export class EcuTekMenuComponent {
+export class EcuTekMenuComponent extends EcuTekBaseComponent {
   MenuList: MenuItem[];
+  @Input() IsSubMenuShow: boolean;
+  @Output("OnItemClicked") ItemClicked = new EventEmitter<MenuItemEventArgs>();
 
-  constructor() {
+  constructor() { 
+    super();
     this.MenuList = [];
-    // let menu: Menu = new Menu(-1, null, null);
-    // menu.AddMenuItem(new MenuItem("BMW", 1, true));
-    // menu.AddMenuItem(new MenuItem("Nissan", 2, false));
-    // menu.AddMenuItem(new MenuItem("Toyota", 3, true));
-    // menu.Items[0].AddChild(new MenuItem("3 Series", 1.1, true));
-    // menu.Items[0].AddChild(new MenuItem("5 Series", 1.2, true));
-    // menu.Items[0].AddChild(new MenuItem("7 Series", 1.3, true));
-    // this.Menu = menu;
+    this.IsSubMenuShow = true;
   }
 
   @Input()
-  DataSource(items: MenuItem[]) {
+  set DataSource(items: MenuItem[]) {
     this.BuildMenu(items);
   }
 
@@ -57,55 +55,68 @@ export class EcuTekMenuComponent {
     }
   }
 
-  ItemMouseOver($event: MouseEvent) {}
+  ItemMouseOver($event: MouseEvent) {
+    let target = <HTMLElement>$event.target;
+    if (target.attributes["itemid"] == undefined) return;
+
+    let itemId = target.attributes["itemid"].value;
+    let isActive: boolean =
+      target.attributes["isactive"].value == "true" ? true : false;
+
+    let menuItem: MenuItem = this.MenuList.find(function(currentItem) {
+      return currentItem.ItemId == itemId;
+    });
+
+    if (menuItem !== null && menuItem !== undefined) {
+      if (menuItem.Children.length > 0) {
+        menuItem.ShowChildren = isActive;
+      }
+    }
+  }
+
+  ItemMouseLeave($event: MouseEvent) {
+    let target = <HTMLElement>$event.target;
+    if (target.attributes["itemid"] == undefined) return;
+
+    let itemId = target.attributes["itemid"].value;
+    let menuItem: MenuItem = this.MenuList.find(function(currentItem) {
+      return currentItem.ItemId == itemId;
+    });
+
+    if (menuItem !== null && menuItem !== undefined) {
+      if (menuItem.Children.length > 0) {
+        menuItem.ShowChildren = false;
+      }
+    }
+  }
+
+  ItemClick($event: MouseEvent) {
+    console.log("Inner Call");
+    let target = <HTMLElement>$event.target;
+    if (target.attributes["itemid"] == undefined) return;
+
+    let itemId = target.attributes["itemid"].value;
+    let isActive: boolean =
+      target.attributes["isactive"].value == "true" ? true : false;
+
+    if (!isActive) return;
+
+    let menuItem: MenuItem = this.MenuList.find(function(currentItem) {
+      return currentItem.ItemId == itemId;
+    });
+
+    let args: MenuItemEventArgs = new MenuItemEventArgs(this, menuItem);
+    this.ItemClicked.emit(args);
+  }
 }
 
-// class Menu {
-//   MenuId: string;
-//   Items: MenuItem[];
-
-//   constructor(rootLevel: number, items: MenuItem[], submenus: Menu[]) {
-//     this.MenuId = this.GUID();
-//     this.Items = items == null ? [] : items;
-//   }
-
-//   private GUID(): any {
-//     var dt = new Date().getTime();
-//     var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(
-//       c
-//     ) {
-//       var r = (dt + Math.random() * 16) % 16 | 0;
-//       dt = Math.floor(dt / 16);
-//       return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
-//     });
-//     return uuid;
-//   }
-
-//   AddMenuItem(menuItem: MenuItem) {
-//     this.Items.push(menuItem);
-//   }
-
-//   RemoveMenuItemById(itemId: string) {
-//     let itemIndex = this.Items.findIndex(function(currentItem) {
-//       return currentItem.ItemId == itemId;
-//     });
-
-//     if (itemIndex == undefined || itemIndex == -1) return;
-//     this.RemoveMenuItemByIndex(itemIndex);
-//   }
-
-//   RemoveMenuItemByIndex(index: number) {
-//     if (index < 0 && index >= this.Items.length) return;
-//     this.Items.splice(index, 0);
-//   }
-// }
-
-class MenuItem {
+export class MenuItem {
   ItemId: string;
   ItemText: string;
   ItemValue: any;
   IsActive: boolean;
   Children: MenuItem[];
+  ShowChildren: boolean;
 
   constructor(itmeText: string, itmeValue: any, isActive: boolean) {
     this.ItemId = this.GUID();
@@ -113,6 +124,7 @@ class MenuItem {
     this.ItemValue = itmeValue;
     this.IsActive = isActive;
     this.Children = [];
+    this.ShowChildren = false;
   }
 
   private GUID(): any {
@@ -143,5 +155,15 @@ class MenuItem {
   RemoveChildItemByIndex(index: number) {
     if (index < 0 && index >= this.Children.length) return;
     this.Children.splice(index, 0);
+  }
+}
+
+export class MenuItemEventArgs {
+  Sender: EcuTekMenuComponent;
+  Item: MenuItem;
+
+  constructor(sender: EcuTekMenuComponent, item: MenuItem) {
+    this.Sender = sender;
+    this.Item = item;
   }
 }

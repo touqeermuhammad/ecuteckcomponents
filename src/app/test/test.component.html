@@ -43,6 +43,9 @@
 <router-outlet></router-outlet>
 
 <button (click)="DownloadFile($event)">Download File</button>
+
+<ecutek-menu [DataSource]="MenuList" (OnItemClicked)="OnItemClicked($event)" ></ecutek-menu>
+
 <!-- <label [innerHtml]="inputVal | uppercase "></label>
 <br/>
 <br/>
