@@ -8,7 +8,9 @@
       [attr.itemid]="item.ItemId"
       [attr.itemindex]="item.ItemIndex"
       [attr.isactive]="item.IsActive"
-      (mouseover)="ItemMouseOver($event)"></span>
+      (mouseover)="ItemMouseOver($event)">
+        <img *ngIf="item.ImageURL != ''" src="item.ImageURL" width="18px" height="18px"/>
+      </span>
 		<span class="spanRight"
       [class.IsDisabled]="!item.IsActive"
       [attr.itemid]="item.ItemId"
@@ -18,7 +20,7 @@
 
       <span class="lessons-list" *ngIf="lessons else loading"></span>
 
-		<ng-template >
+		<ng-template #loading>
 			<ecutek-menu [DataSource]="item.Children" [attr.itemid]="item.ItemId" [attr.itemindex]="item.ItemIndex"
 				[attr.isactive]="item.IsActive" [class.hideChildren]="!item.ShowChildren"
 				[class.showChildren]="item.ShowChildren">

@@ -1,6 +1,11 @@
-import { Component, Input, Output, EventEmitter, Injectable } from "@angular/core";
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  Injectable
+} from "@angular/core";
 import { EcuTekBaseComponent } from "../../EcuTekComponents/EcuTekBase/ecutek-base.component";
-
 
 @Component({
   selector: "ecutek-menu",
@@ -9,10 +14,12 @@ import { EcuTekBaseComponent } from "../../EcuTekComponents/EcuTekBase/ecutek-ba
 })
 export class EcuTekMenuComponent extends EcuTekBaseComponent {
   MenuList: MenuItem[];
+  private static SelectedItem: MenuItem;
+
   @Input() IsSubMenuShow: boolean;
   @Output("OnItemClicked") ItemClicked = new EventEmitter<MenuItemEventArgs>();
 
-  constructor() { 
+  constructor() {
     super();
     this.MenuList = [];
     this.IsSubMenuShow = true;
@@ -56,6 +63,8 @@ export class EcuTekMenuComponent extends EcuTekBaseComponent {
   }
 
   ItemMouseOver($event: MouseEvent) {
+    //console.log("Inner Call - ItemMouseOver");
+
     let target = <HTMLElement>$event.target;
     if (target.attributes["itemid"] == undefined) return;
 
@@ -63,9 +72,21 @@ export class EcuTekMenuComponent extends EcuTekBaseComponent {
     let isActive: boolean =
       target.attributes["isactive"].value == "true" ? true : false;
 
-    let menuItem: MenuItem = this.MenuList.find(function(currentItem) {
-      return currentItem.ItemId == itemId;
-    });
+    let menuItem: MenuItem = null;
+
+    if (
+      EcuTekMenuComponent.SelectedItem != null &&
+      EcuTekMenuComponent.SelectedItem.ItemId == itemId
+    ) {
+      menuItem = EcuTekMenuComponent.SelectedItem;
+      //console.log("Found - ItemMouseOver");
+
+    } else {
+      menuItem = this.MenuList.find(function(currentItem) {
+        return currentItem.ItemId == itemId;
+      });
+      EcuTekMenuComponent.SelectedItem = menuItem;
+    }
 
     if (menuItem !== null && menuItem !== undefined) {
       if (menuItem.Children.length > 0) {
@@ -75,13 +96,27 @@ export class EcuTekMenuComponent extends EcuTekBaseComponent {
   }
 
   ItemMouseLeave($event: MouseEvent) {
+    //console.log("Inner Call - ItemMouseLeave");
     let target = <HTMLElement>$event.target;
     if (target.attributes["itemid"] == undefined) return;
 
     let itemId = target.attributes["itemid"].value;
-    let menuItem: MenuItem = this.MenuList.find(function(currentItem) {
-      return currentItem.ItemId == itemId;
-    });
+
+    let menuItem: MenuItem = null;
+
+    if (
+      EcuTekMenuComponent.SelectedItem != null &&
+      EcuTekMenuComponent.SelectedItem.ItemId == itemId
+    ) {
+      menuItem = EcuTekMenuComponent.SelectedItem;
+      //console.log("Found - ItemMouseLeave");
+
+    } else {
+      menuItem = this.MenuList.find(function(currentItem) {
+        return currentItem.ItemId == itemId;
+      });
+      EcuTekMenuComponent.SelectedItem = menuItem;
+    }
 
     if (menuItem !== null && menuItem !== undefined) {
       if (menuItem.Children.length > 0) {
@@ -91,7 +126,6 @@ export class EcuTekMenuComponent extends EcuTekBaseComponent {
   }
 
   ItemClick($event: MouseEvent) {
-    console.log("Inner Call");
     let target = <HTMLElement>$event.target;
     if (target.attributes["itemid"] == undefined) return;
 
@@ -100,12 +134,13 @@ export class EcuTekMenuComponent extends EcuTekBaseComponent {
       target.attributes["isactive"].value == "true" ? true : false;
 
     if (!isActive) return;
+    console.log("Inner Call" + itemId);
 
-    let menuItem: MenuItem = this.MenuList.find(function(currentItem) {
-      return currentItem.ItemId == itemId;
-    });
+    // let menuItem: MenuItem = this.MenuList.find(function(currentItem) {
+    //   return currentItem.ItemId == itemId;
+    // });
 
-    let args: MenuItemEventArgs = new MenuItemEventArgs(this, menuItem);
+    let args: MenuItemEventArgs = new MenuItemEventArgs(this, EcuTekMenuComponent.SelectedItem);
     this.ItemClicked.emit(args);
   }
 }
@@ -115,6 +150,7 @@ export class MenuItem {
   ItemText: string;
   ItemValue: any;
   IsActive: boolean;
+  ImageURL: string;
   Children: MenuItem[];
   ShowChildren: boolean;
 

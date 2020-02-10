@@ -12,7 +12,7 @@ li{
   width: 150px;
   position: relative;
   height: 30px;
-  padding-top: 10px;
+  padding: 5px;
   border-bottom: 1px solid white;
 }
 
@@ -21,8 +21,11 @@ ul li:last-child {
 }
 
 .spanLeft, .spanRight{
-  display: inline-block;
-  padding: 2px;  
+  display: inline-block;  
+}
+
+.spanLeft{
+  padding-left: 5px;  
 }
 
 .spanRight{

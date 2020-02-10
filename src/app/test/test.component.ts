@@ -25,6 +25,8 @@ export class TestComponent implements OnInit {
     this.MenuList.push(new MenuItem("Nissan", "2", false));
     this.MenuList.push(new MenuItem("Toyota", "3", true));
 
+    this.MenuList[0].ImageURL = "";
+
     this.MenuList[0].Children.push(new MenuItem("3 Series", "1.1", true));
     this.MenuList[0].Children.push(new MenuItem("5 Series", "1.2", true));
     this.MenuList[0].Children.push(new MenuItem("7 Series", "1.3", true));    
