@@ -2,6 +2,13 @@
   <h3>{{HeadingName}}</h3>
   <hr/>
 
+  <div>
+    <button (click)="btn1Click($event)">Load Component 1</button>
+    <button (click)="btn1Click($event)">Load Component 2</button>
+  </div>
+
+  <hr/>
+
   <div class="popup-contents row">
     <div class="col-md-12">
       <ng-template popup-contents></ng-template>
