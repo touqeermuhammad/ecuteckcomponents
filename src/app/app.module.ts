@@ -22,6 +22,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { DownloadFileService } from './HttpComponents/downloadfile.service';
 import { ViewChildCompComponent } from './EcuTekComponents/ViewChildExample/view-child-comp/view-child-comp.component';
 import { EcuTekBaseComponent } from './EcuTekComponents/EcuTekBase/ecutek-base.component';
+import { PopupComponentComponent } from './EcuTekComponents/popup-component/popup-component.component';
+import { PopupContentsDirective } from './EcuTekComponents/popup-contents.directive';
 
 
 const appRoutes: Routes = [
@@ -40,7 +42,7 @@ const appRoutes: Routes = [
                   HttpClientModule
 
                 ],
-  declarations: [ AppComponent, TestComponent, EcuTekGridComponent, EcuTekFilterComponent, EcuTekMenuComponent, EcuTekDropDownListComponent, ExportComponent, CrisisListComponent, HeroListComponent, NotFoundComponent, ViewChildCompComponent, EcuTekBaseComponent ],
+  declarations: [ AppComponent, TestComponent, EcuTekGridComponent, EcuTekFilterComponent, EcuTekMenuComponent, EcuTekDropDownListComponent, ExportComponent, CrisisListComponent, HeroListComponent, NotFoundComponent, ViewChildCompComponent, EcuTekBaseComponent, PopupComponentComponent, PopupContentsDirective ],
   bootstrap:    [ AppComponent ],
   providers: [DownloadFileService]
 })
