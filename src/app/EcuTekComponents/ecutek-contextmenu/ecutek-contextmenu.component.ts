@@ -64,12 +64,12 @@ export class MenuItem {
   }
 }
 
-export class MenuItemEventArgs {
-  Sender: EcutekContextmenuComponent;
-  Item: MenuItem;
+export class EcutekContextmenuEventArgs {
+  sender: EcutekContextmenuComponent;
+  item: MenuItem;
 
   constructor(sender: EcutekContextmenuComponent, item: MenuItem) {
-    this.Sender = sender;
-    this.Item = item;
+    this.sender = sender;
+    this.item = item;
   }
 }
