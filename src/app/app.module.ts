@@ -24,6 +24,7 @@ import { ViewChildCompComponent } from './EcuTekComponents/ViewChildExample/view
 import { EcuTekBaseComponent } from './EcuTekComponents/EcuTekBase/ecutek-base.component';
 import { PopupComponentComponent } from './EcuTekComponents/popup-component/popup-component.component';
 import { PopupContentsDirective } from './EcuTekComponents/popup-contents.directive';
+import { EcutekContextmenuComponent } from './EcuTekComponents/ecutek-contextmenu/ecutek-contextmenu.component';
 
 
 const appRoutes: Routes = [
@@ -42,7 +43,7 @@ const appRoutes: Routes = [
                   HttpClientModule
 
                 ],
-  declarations: [ AppComponent, TestComponent, EcuTekGridComponent, EcuTekFilterComponent, EcuTekMenuComponent, EcuTekDropDownListComponent, ExportComponent, CrisisListComponent, HeroListComponent, NotFoundComponent, ViewChildCompComponent, EcuTekBaseComponent, PopupComponentComponent, PopupContentsDirective ],
+  declarations: [ AppComponent, TestComponent, EcuTekGridComponent, EcuTekFilterComponent, EcuTekMenuComponent, EcuTekDropDownListComponent, ExportComponent, CrisisListComponent, HeroListComponent, NotFoundComponent, ViewChildCompComponent, EcuTekBaseComponent, PopupComponentComponent, PopupContentsDirective, EcutekContextmenuComponent ],
   bootstrap:    [ AppComponent ],
   providers: [DownloadFileService]
 })
