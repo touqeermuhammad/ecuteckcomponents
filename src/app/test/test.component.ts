@@ -49,7 +49,7 @@ export class TestComponent implements OnInit {
 
   OnChildRegistration($event){
     debugger;
-    let child:any = {name: $event.Name, TypeName: $event.TypeName, Object: $event} ;
+    let child:any = {Name: $event.Name, TypeName: $event.TypeName, Object: $event} ;
     this.children[child.Name] = child;
 
   }
@@ -62,9 +62,9 @@ export class TestComponent implements OnInit {
   }
 
   public async DownloadFile($event:MouseEvent){
-    // debugger;
-    // let menu:EcuTekMenuComponent = <EcuTekMenuComponent> this.children["menu"].Object;
-    // menu.IsSubMenuShow = true;
+    debugger;
+    let menu:EcuTekMenuComponent = <EcuTekMenuComponent> this.children["menu"].Object;
+    menu.IsSubMenuShow = true;
 
     // const blob = await this.service.DownloadFile("http://localhost:51632/export/addresses?softGroup=S55&mapClass=1d");
     // const url = window.URL.createObjectURL(blob);
