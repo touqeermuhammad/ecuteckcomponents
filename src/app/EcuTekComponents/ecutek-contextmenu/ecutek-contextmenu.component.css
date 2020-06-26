@@ -1,0 +1,15 @@
+.menuContainer{
+  position: relative;
+  border: 1px black solid;
+  max-width: 150px;
+  background-color: lightgray;
+}
+
+ul{
+  list-style-type: none;
+}
+
+li{
+  border-bottom: 1px black solid;
+  margin-bottom: 5px;
+}

@@ -22,7 +22,7 @@ export class EcuTekMenuComponent extends EcuTekBaseComponent {
   constructor() {
     super();
     this.MenuList = [];
-    this.IsSubMenuShow = true;
+    this.IsSubMenuShow = false;
   }
 
   @Input()

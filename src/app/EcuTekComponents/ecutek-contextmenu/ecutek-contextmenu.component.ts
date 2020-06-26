@@ -5,14 +5,11 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './ecutek-contextmenu.component.html',
   styleUrls: ['./ecutek-contextmenu.component.css']
 })
-export class EcutekContextmenuComponent implements OnInit {
+export class EcutekContextmenuComponent {
 
   showContextMenu:boolean;
   constructor() { 
-    this.showContextMenu = false;
-  }
-
-  ngOnInit() {
+    this.showContextMenu = true;
   }
 
 }

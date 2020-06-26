@@ -44,7 +44,11 @@
 
 <button (click)="DownloadFile($event)">Download File</button>
 
-<ecutek-menu [DataSource]="MenuList" (OnItemClicked)="OnItemClicked($event)" ></ecutek-menu>
+<ecutek-menu [DataSource]="MenuList" 
+              [Name]="'menu'"
+              (OnInitialisation)="OnChildRegistration($event)"
+              (OnItemClicked)="OnItemClicked($event)" >
+              </ecutek-menu>
 
 <!-- <label [innerHtml]="inputVal | uppercase "></label>
 <br/>

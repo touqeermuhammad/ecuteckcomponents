@@ -1,5 +1,5 @@
 <!-- <ul *ngFor="let menu of Menus"> -->
-<ul>
+<ul *ngIf="IsSubMenuShow">
 	<li *ngFor="let item of MenuList" [class.IsDisabled]="!item.IsActive" [attr.itemid]="item.ItemId"
 		[attr.itemindex]="item.ItemIndex" [attr.isactive]="item.IsActive" (mouseover)="ItemMouseOver($event)"
 		(mouseleave)="ItemMouseLeave($event)" (click)="ItemClick($event)">

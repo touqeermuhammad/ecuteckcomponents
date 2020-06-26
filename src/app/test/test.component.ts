@@ -14,8 +14,10 @@ export class TestComponent implements OnInit {
   evilTitle = 'Template <script>alert("evil never sleeps")</script>Syntax';
 
   MenuList:MenuItem[];
+  children:any[]
 
   constructor(private service:DownloadFileService ) { 
+    this.children = [];
 
   }
 
@@ -43,8 +45,12 @@ export class TestComponent implements OnInit {
 
     this.MenuList[2].Children.push(new MenuItem("Corolla", "3.1", true));
     this.MenuList[2].Children.push(new MenuItem("Yaris", "3.2", true));
+  }
 
-
+  OnChildRegistration($event){
+    debugger;
+    let child:any = {name: $event.Name, TypeName: $event.TypeName, Object: $event} ;
+    this.children[child.Name] = child;
 
   }
 
@@ -56,16 +62,19 @@ export class TestComponent implements OnInit {
   }
 
   public async DownloadFile($event:MouseEvent){
+    // debugger;
+    // let menu:EcuTekMenuComponent = <EcuTekMenuComponent> this.children["menu"].Object;
+    // menu.IsSubMenuShow = true;
 
-    const blob = await this.service.DownloadFile("http://localhost:51632/export/addresses?softGroup=S55&mapClass=1d");
-    const url = window.URL.createObjectURL(blob);
+    // const blob = await this.service.DownloadFile("http://localhost:51632/export/addresses?softGroup=S55&mapClass=1d");
+    // const url = window.URL.createObjectURL(blob);
     
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'address.pascal';
-    link.click();
+    // const link = document.createElement('a');
+    // link.href = url;
+    // link.download = 'address.pascal';
+    // link.click();
   
-    window.URL.revokeObjectURL(url);
+    // window.URL.revokeObjectURL(url);
   }
 
 }
