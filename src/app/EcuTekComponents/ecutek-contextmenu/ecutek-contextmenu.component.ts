@@ -7,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EcutekContextmenuComponent implements OnInit {
 
-  constructor() { }
+  showContextMenu:boolean;
+  constructor() { 
+    this.showContextMenu = false;
+  }
 
   ngOnInit() {
   }
