@@ -42,10 +42,20 @@
 </nav>
 <router-outlet></router-outlet>
 
-<button (click)="DownloadFile($event)">Download File</button>
+<table>
+  <tr>
+    <td>
+      <button (click)="DownloadFile($event)">Download File 1</button>
+    </td>
+  </tr>
+    <tr>
+    <td>
+      <button (click)="DownloadFile($event)">Download File 2</button>
+    </td>
+  </tr>
+</table>
 
-<ecutek-menu [DataSource]="MenuList" 
-              [Name]="'menu'"
+<ecutek-menu [Name]="'menu'"
               (OnInitialisation)="OnChildRegistration($event)"
               (OnItemClicked)="OnItemClicked($event)" >
               </ecutek-menu>

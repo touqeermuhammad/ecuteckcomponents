@@ -1,8 +1,14 @@
 <!-- <ul *ngFor="let menu of Menus"> -->
-<ul *ngIf="IsSubMenuShow">
-	<li *ngFor="let item of MenuList" [class.IsDisabled]="!item.IsActive" [attr.itemid]="item.ItemId"
-		[attr.itemindex]="item.ItemIndex" [attr.isactive]="item.IsActive" (mouseover)="ItemMouseOver($event)"
-		(mouseleave)="ItemMouseLeave($event)" (click)="ItemClick($event)">
+<ul *ngIf="IsSubMenuShow"
+      [ngStyle]="{'left.px': menuXPosition, 'top.px': menuYPosition}">
+	<li *ngFor="let item of MenuList" 
+      [class.IsDisabled]="!item.IsActive" 
+      [attr.itemid]="item.ItemId"
+		  [attr.itemindex]="item.ItemIndex" 
+      [attr.isactive]="item.IsActive"
+      (mouseover)="ItemMouseOver($event)"
+		  (mouseleave)="ItemMouseLeave($event)" 
+      (click)="ItemClick($event)">
 		<span class="spanLeft"
       [class.IsDisabled]="!item.IsActive"
       [attr.itemid]="item.ItemId"
@@ -21,10 +27,13 @@
       <span class="lessons-list" *ngIf="lessons else loading"></span>
 
 		<ng-template #loading>
-			<ecutek-menu [DataSource]="item.Children" [attr.itemid]="item.ItemId" [attr.itemindex]="item.ItemIndex"
-				[attr.isactive]="item.IsActive" [class.hideChildren]="!item.ShowChildren"
-				[class.showChildren]="item.ShowChildren">
-				(OnItemClicked)="OnItemClicked($event)"
+			<ecutek-menu [DataSource]="item.Children" 
+                    [attr.itemid]="item.ItemId" 
+                    [attr.itemindex]="item.ItemIndex"
+                    [attr.isactive]="item.IsActive" [class.hideChildren]="!item.ShowChildren"
+                    [IsSubMenuShow] = "item.Children.length > 0"
+                    [class.showChildren]="item.ShowChildren"
+                    (OnItemClicked)="OnChildItemClicked($event)">
 			</ecutek-menu>
 		</ng-template>
 

@@ -22,6 +22,24 @@ export class TestComponent implements OnInit {
   }
 
   ngOnInit() {
+
+  }
+
+  OnChildRegistration($event){
+    debugger;
+    let child:any = {Name: $event.Name, TypeName: $event.TypeName, Object: $event} ;
+    this.children[child.Name] = child;
+
+  }
+
+  OnItemClicked($event:MenuItemEventArgs ){
+    console.log("Outer Call");
+
+    console.log($event.Item.ItemValue + " - " + $event.Item.ItemText);
+
+  }
+
+  private buildMenue(){
     this.MenuList = [];
     this.MenuList.push(new MenuItem("BMW", "1", true));
     this.MenuList.push(new MenuItem("Nissan", "2", false));
@@ -47,24 +65,16 @@ export class TestComponent implements OnInit {
     this.MenuList[2].Children.push(new MenuItem("Yaris", "3.2", true));
   }
 
-  OnChildRegistration($event){
-    debugger;
-    let child:any = {Name: $event.Name, TypeName: $event.TypeName, Object: $event} ;
-    this.children[child.Name] = child;
-
-  }
-
-  OnItemClicked($event:MenuItemEventArgs ){
-    console.log("Outer Call");
-
-    console.log($event.Item.ItemValue + " - " + $event.Item.ItemText);
-
-  }
-
   public async DownloadFile($event:MouseEvent){
     debugger;
     let menu:EcuTekMenuComponent = <EcuTekMenuComponent> this.children["menu"].Object;
     menu.IsSubMenuShow = true;
+    menu.menuXPosition = $event.clientX; 
+    menu.menuYPosition = $event.clientY 
+
+    this.buildMenue();
+    menu.DataSource = this.MenuList;
+
 
     // const blob = await this.service.DownloadFile("http://localhost:51632/export/addresses?softGroup=S55&mapClass=1d");
     // const url = window.URL.createObjectURL(blob);

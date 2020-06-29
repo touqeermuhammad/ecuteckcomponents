@@ -17,12 +17,17 @@ export class EcuTekMenuComponent extends EcuTekBaseComponent {
   private static SelectedItem: MenuItem;
 
   @Input() IsSubMenuShow: boolean;
+  @Input() menuXPosition: number;
+  @Input() menuYPosition: number;
   @Output("OnItemClicked") ItemClicked = new EventEmitter<MenuItemEventArgs>();
 
   constructor() {
     super();
     this.MenuList = [];
     this.IsSubMenuShow = false;
+
+    this.menuXPosition  = 0;
+    this.menuYPosition  = 0;
   }
 
   @Input()
@@ -31,6 +36,8 @@ export class EcuTekMenuComponent extends EcuTekBaseComponent {
   }
 
   private BuildMenu(items: MenuItem[]) {
+    if(items === undefined) return;
+
     this.MenuList = [];
 
     for (let x of items) {
@@ -123,6 +130,8 @@ export class EcuTekMenuComponent extends EcuTekBaseComponent {
         menuItem.ShowChildren = false;
       }
     }
+
+    //this.IsSubMenuShow = false;
   }
 
   ItemClick($event: MouseEvent) {
@@ -136,12 +145,14 @@ export class EcuTekMenuComponent extends EcuTekBaseComponent {
     if (!isActive) return;
     console.log("Inner Call" + itemId);
 
-    // let menuItem: MenuItem = this.MenuList.find(function(currentItem) {
-    //   return currentItem.ItemId == itemId;
-    // });
-
     let args: MenuItemEventArgs = new MenuItemEventArgs(this, EcuTekMenuComponent.SelectedItem);
     this.ItemClicked.emit(args);
+    this.IsSubMenuShow = false;
+  }
+
+  OnChildItemClicked($event: MenuItemEventArgs){
+    this.ItemClicked.emit($event);
+    this.IsSubMenuShow = false;
   }
 }
 
