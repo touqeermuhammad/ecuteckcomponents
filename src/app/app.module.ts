@@ -24,6 +24,8 @@ import { ViewChildCompComponent } from './EcuTekComponents/ViewChildExample/view
 import { EcuTekBaseComponent } from './EcuTekComponents/EcuTekBase/ecutek-base.component';
 import { PopupComponentComponent } from './EcuTekComponents/popup-component/popup-component.component';
 import { PopupContentsDirective } from './EcuTekComponents/popup-contents.directive';
+import { EcutekInputMaskComponent } from './EcuTekComponents/ecutek-input-mask/ecutek-input-mask.component';
+import { MaskPipe } from './EcuTekComponents/mask.pipe';
 
 
 
@@ -43,7 +45,7 @@ const appRoutes: Routes = [
                   HttpClientModule
 
                 ],
-  declarations: [ AppComponent, TestComponent, EcuTekGridComponent, EcuTekFilterComponent, EcuTekMenuComponent, EcuTekDropDownListComponent, ExportComponent, CrisisListComponent, HeroListComponent, NotFoundComponent, ViewChildCompComponent, EcuTekBaseComponent, PopupComponentComponent, PopupContentsDirective ],
+  declarations: [ AppComponent, TestComponent, EcuTekGridComponent, EcuTekFilterComponent, EcuTekMenuComponent, EcuTekDropDownListComponent, ExportComponent, CrisisListComponent, HeroListComponent, NotFoundComponent, ViewChildCompComponent, EcuTekBaseComponent, PopupComponentComponent, PopupContentsDirective, EcutekInputMaskComponent, MaskPipe ],
   bootstrap:    [ AppComponent ],
   providers: [DownloadFileService]
 })

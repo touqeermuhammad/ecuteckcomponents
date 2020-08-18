@@ -1,0 +1,5 @@
+<input type="text" 
+  [class.invalidInput]="!isValidInput"
+  [ngModel]="textValue | mask: formatStyle"
+  [pattern]="pattern"
+  (ngModelChange)="onTextChange($event)"/>

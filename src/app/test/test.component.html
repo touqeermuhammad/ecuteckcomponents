@@ -6,6 +6,11 @@
 <p>Condition is : {{ condition }}</p>
 <div [class.special]="condition">The class binding is special</div>
 
+<span style="display:block">Input Mask Control</span>
+<ecutek-input-mask [TextValue]="textValue" 
+  [Pattern]="'^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$'">
+</ecutek-input-mask>
+
 <hr/>
 
 <h2>Routing Example</h2>

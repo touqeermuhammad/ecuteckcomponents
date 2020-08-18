@@ -14,11 +14,12 @@ export class TestComponent implements OnInit {
   evilTitle = 'Template <script>alert("evil never sleeps")</script>Syntax';
 
   MenuList:MenuItem[];
-  children:any[]
+  children:any[];
+  textValue: string;
 
   constructor(private service:DownloadFileService ) { 
     this.children = [];
-
+    this.textValue = "123234";
   }
 
   ngOnInit() {
@@ -26,7 +27,6 @@ export class TestComponent implements OnInit {
   }
 
   OnChildRegistration($event){
-    debugger;
     let child:any = {Name: $event.Name, TypeName: $event.TypeName, Object: $event} ;
     this.children[child.Name] = child;
 
@@ -34,9 +34,7 @@ export class TestComponent implements OnInit {
 
   OnItemClicked($event:MenuItemEventArgs ){
     console.log("Outer Call");
-
     console.log($event.Item.ItemValue + " - " + $event.Item.ItemText);
-
   }
 
   private buildMenue(){
