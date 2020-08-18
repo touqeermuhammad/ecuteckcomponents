@@ -9,9 +9,9 @@ export class MaskPipe implements PipeTransform {
 
     if(args === "hex"){
       if(value === "" || value === "0"){
-        return "$00000";
+        return "#00000";
       }
-      return "$" + parseInt(value).toString(16).toUpperCase();
+      return "#" + parseInt(value).toString(16).toUpperCase();
     }
     return null;
   }
