@@ -9,7 +9,8 @@
 <span style="display:block">Input Mask Control</span>
 <ecutek-input-mask [TextValue]="textValue" 
   [Format]="'hex'"
-  [Pattern]="'^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$'">
+  [Pattern]="'^[0-9a-f]+$'"
+  [MaxLength]="9">
 </ecutek-input-mask>
 
 <hr/>

@@ -10,6 +10,7 @@ export class EcutekInputMaskComponent implements OnInit {
   @Input("TextValue") textValue:string;
   @Input("Pattern") pattern:string;
   @Input("Format") formatStyle:string;
+  @Input("MaxLength") maxLength:number;
 
   private isValidInput: boolean;
 
@@ -18,6 +19,7 @@ export class EcutekInputMaskComponent implements OnInit {
     this.pattern = "";
     this.formatStyle = "";
     this.isValidInput = true;
+    this.maxLength = 0;
   }
 
   ngOnInit() {
@@ -27,15 +29,16 @@ export class EcutekInputMaskComponent implements OnInit {
 
     this.isValidInput = true;
 
-    if(this.pattern != ""){
+    if(this.pattern != "" && event != ""){
       let regExp = new RegExp(this.pattern);
       this.isValidInput = regExp.test(event);
       if(this.isValidInput){
+        this.textValue = this.textValue;
         return;
       }
     }
 
-    this.textValue = event;
+    this.textValue = event.toString().toUpperCase();
     console.log(this.textValue);
   }
 

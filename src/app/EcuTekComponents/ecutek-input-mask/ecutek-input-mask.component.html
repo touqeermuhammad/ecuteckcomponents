@@ -2,4 +2,5 @@
   [class.invalidInput]="!isValidInput"
   [ngModel]="textValue | mask: formatStyle"
   [pattern]="pattern"
+  [maxlength]="maxLength"
   (ngModelChange)="onTextChange($event)"/>
